@@ -4,8 +4,8 @@ import Articles from "../components/Articles";
 
 const ArticlesList = () => {
   return (
-    <div className="mb-20">
-      <h1 className="text-2xl sm:text-4xl font-bold my-6 text-gray-900">
+    <div className="mt-10 mb-20">
+      <h1 className="text-3xl sm:text-5xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-indigo-400">
         Articles
       </h1>
 
