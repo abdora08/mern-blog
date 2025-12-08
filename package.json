@@ -1,0 +1,28 @@
+{
+  "name": "mern-blog",
+  "version": "1.0.0",
+  "description": "Mern app to learn fullstack development",
+  "main": "server.js",
+  "scripts": {
+    "server": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdora08/mern-blog.git"
+  },
+  "keywords": [],
+  "author": "Abdi Bekele",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/abdora08/mern-blog/issues"
+  },
+  "homepage": "https://github.com/abdora08/mern-blog#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.11"
+  }
+}
