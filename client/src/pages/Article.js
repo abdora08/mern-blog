@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import articleContent from "./article-content";
+import Articles from "../components/Articles";
 
 const Article = () => {
   const { name } = useParams();
@@ -13,11 +14,12 @@ const Article = () => {
           Article Not Found
         </h1>
         <p className="text-gray-700 text-base">
-          The article you're looking for doesn't exist or has been removed.
+          The article you’re looking for doesn’t exist or has been removed.
         </p>
       </div>
     );
   }
+  const otherArticles = articleContent.filter((a) => a.name !== name);
 
   return (
     <div className="mb-20">
@@ -25,11 +27,25 @@ const Article = () => {
         {article.title}
       </h1>
 
-      {article.content.map((paragraph, index) => (
-        <p className="leading-relaxed text-lg mb-6 text-gray-800" key={index}>
-          {paragraph}
-        </p>
-      ))}
+      <div className="space-y-6">
+        {article.content.map((paragraph, index) => (
+          <p className="text-gray-800 text-lg leading-relaxed" key={index}>
+            {paragraph}
+          </p>
+        ))}
+      </div>
+
+      {otherArticles.length > 0 && (
+        <section className="mt-16 border-t border-gray-200 pt-8">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-8 text-gray-900">
+            Other Articles
+          </h2>
+
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
+            <Articles articles={otherArticles} />
+          </div>
+        </section>
+      )}
     </div>
   );
 };

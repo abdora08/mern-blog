@@ -5,10 +5,12 @@ import AboutUs from "./pages/AboutUs";
 import ArticlesList from "./pages/ArticlesList";
 import Article from "./pages/Article";
 import Navbar from "./components/Navbar";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Navbar />
       <div className="max-w-screen-md mx-auto pt-20">
         <Routes>
