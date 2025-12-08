@@ -2,22 +2,14 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import articleContent from "./article-content";
 import Articles from "../components/Articles";
+import NotFound from "./NotFound";
 
 const Article = () => {
   const { name } = useParams();
   const article = articleContent.find((article) => article.name === name);
 
   if (!article) {
-    return (
-      <div className="mb-20 text-center">
-        <h1 className="text-2xl sm:text-4xl font-bold my-6 text-red-600">
-          Article Not Found
-        </h1>
-        <p className="text-gray-700 text-base">
-          The article you’re looking for doesn’t exist or has been removed.
-        </p>
-      </div>
-    );
+    return <NotFound />;
   }
   const otherArticles = articleContent.filter((a) => a.name !== name);
 
