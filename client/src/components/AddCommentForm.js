@@ -6,11 +6,15 @@ const AddCommentForm = ({ articleName, setArticleInfo }) => {
 
   const addComments = async (e) => {
     e.preventDefault();
-    const result = await fetch(`/api/articles/${articleName}/add-comments`, {
-      method: "POST",
-      body: JSON.stringify({ username, text: commentText }),
-      headers: { "Content-Type": "application/json" },
-    });
+
+    const result = await fetch(
+      `${process.env.REACT_APP_API_URL}/api/articles/${articleName}/add-comments`,
+      {
+        method: "POST",
+        body: JSON.stringify({ username, text: commentText }),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
 
     const body = await result.json();
     setArticleInfo(body);

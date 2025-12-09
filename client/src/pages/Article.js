@@ -13,7 +13,9 @@ const Article = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetch(`/api/articles/${name}`);
+      const result = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/articles/${name}`
+      );
       const body = await result.json();
       setArticlesInfo(body);
     };
