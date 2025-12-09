@@ -1,6 +1,6 @@
 import React from "react";
 
-const CommentsList = ({ comments }) => {
+const CommentsList = ({ comments = [] }) => {
   return (
     <div className="mt-14">
       <h3 className="text-3xl font-bold mb-8 text-gray-900 tracking-tight">

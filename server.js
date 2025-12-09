@@ -1,49 +1,64 @@
+require("dotenv").config();
 const express = require("express");
-const app = express();
+const cors = require("cors");
 const { MongoClient } = require("mongodb");
+
+const app = express();
 const PORT = process.env.PORT || 8000;
 
-app.use(express.json({ extended: false }));
+app.use(cors());
+app.use(express.json());
 
-const withDB = async (operations, res) => {
+let db;
+
+const client = new MongoClient(process.env.MONGODB_URI);
+
+async function connectDB() {
   try {
-    const client = await MongoClient.connect("mongodb://localhost:27017");
-    const db = client.db("mernblog");
-    await operations(db);
-    await client.close();
-  } catch (error) {
-    res.status(500).json({ message: "Error connecting to database", error });
+    await client.connect();
+    db = client.db("mernblog");
+    console.log("Connected to MongoDB Atlas");
+  } catch (err) {
+    console.error("Failed to connect to DB", err);
+    process.exit(1);
   }
-};
+}
 
 app.get("/api/articles/:name", async (req, res) => {
-  withDB(async (db) => {
+  try {
     const articleName = req.params.name;
-    const articlesInfo = await db
+    const articleInfo = await db
       .collection("articles")
       .findOne({ name: articleName });
-    res.status(200).json(articlesInfo);
-  }, res);
+    res.status(200).json(articleInfo);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching article", error });
+  }
 });
 
 app.post("/api/articles/:name/add-comments", async (req, res) => {
-  const { username, text } = req.body;
-  const articleName = req.params.name;
+  try {
+    const articleName = req.params.name;
+    const { username, text } = req.body;
 
-  withDB(async (db) => {
-    await db.collection("articles").updateOne(
-      { name: articleName },
-      {
-        $push: { comments: { username, text } },
-      }
-    );
-    const updatedArticleInfo = await db
+    await db
+      .collection("articles")
+      .updateOne(
+        { name: articleName },
+        { $push: { comments: { username, text } } }
+      );
+
+    const updatedArticle = await db
       .collection("articles")
       .findOne({ name: articleName });
-    res.status(200).json(updatedArticleInfo);
-  }, res);
+    res.status(200).json(updatedArticle);
+  } catch (error) {
+    res.status(500).json({ message: "Error adding comment", error });
+  }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 });
