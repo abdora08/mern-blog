@@ -4,6 +4,7 @@ import articleContent from "./article-content";
 import Articles from "../components/Articles";
 import NotFound from "./NotFound";
 import CommentsList from "../components/CommentsList";
+import AddCommentForm from "../components/AddCommentForm";
 
 const Article = () => {
   const { name } = useParams();
@@ -37,6 +38,8 @@ const Article = () => {
       </div>
 
       <CommentsList comments={articlesInfo.comments} />
+
+      <AddCommentForm articleName={name} setArticleInfo={setArticlesInfo} />
 
       {otherArticles.length > 0 && (
         <section className="mt-20 pt-10 border-t border-gray-200">
