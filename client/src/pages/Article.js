@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import articleContent from "./article-content";
 import Articles from "../components/Articles";
 import NotFound from "./NotFound";
+import CommentsList from "../components/CommentsList";
 
 const Article = () => {
   const { name } = useParams();
@@ -13,7 +14,6 @@ const Article = () => {
     const fetchData = async () => {
       const result = await fetch(`/api/articles/${name}`);
       const body = await result.json();
-      console.log(body);
       setArticlesInfo(body);
     };
     fetchData();
@@ -25,26 +25,26 @@ const Article = () => {
   const otherArticles = articleContent.filter((a) => a.name !== name);
 
   return (
-    <div className="mb-20">
-      <h1 className="text-2xl sm:text-4xl font-bold my-6 text-gray-900">
+    <div className="mb-20 max-w-4xl mx-auto px-4">
+      <h1 className="text-3xl sm:text-5xl font-extrabold my-10 text-gray-900 tracking-tight">
         {article.title}
       </h1>
 
-      <div className="space-y-6">
+      <div className="space-y-6 text-lg text-gray-800 leading-relaxed">
         {article.content.map((paragraph, index) => (
-          <p className="text-gray-800 text-lg leading-relaxed" key={index}>
-            {paragraph}
-          </p>
+          <p key={index}>{paragraph}</p>
         ))}
       </div>
 
+      <CommentsList comments={articlesInfo.comments} />
+
       {otherArticles.length > 0 && (
-        <section className="mt-16 border-t border-gray-200 pt-8">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-8 text-gray-900">
+        <section className="mt-20 pt-10 border-t border-gray-200">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-10 text-gray-900">
             Other Articles
           </h2>
 
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
+          <div className="grid gap-8 sm:grid-cols-2">
             <Articles articles={otherArticles} />
           </div>
         </section>
